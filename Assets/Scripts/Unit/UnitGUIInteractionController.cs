@@ -1,4 +1,6 @@
-﻿using Sirenix.OdinInspector;
+﻿using System;
+using System.Linq;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -8,7 +10,14 @@ namespace Unit
     {
         [Title("Reference")] 
         public Unit unit;
-        
+
+        public UnitRelationshipGUIDrawer relationshipGUIDrawer;
+
+        private void Awake()
+        {
+            relationshipGUIDrawer = FindObjectsOfType<UnitRelationshipGUIDrawer>().First(e => e.isMainDrawer);
+        }
+
         public void OnPointerClick(PointerEventData eventData)
         {
             if (Input.GetMouseButtonUp(0))
@@ -19,19 +28,17 @@ namespace Unit
 
         private void OnLeftClick()
         {
-            Debug.Log("onleftclick");
             ShowRelations();
         }
 
         private void OnRightClick()
         {
-            Debug.Log("onrightclick");
         }
 
         private void ShowRelations()
         {
             
-            UnitRelationshipGUIDrawer.Instance.DrawUnitRelations(unit);
+            relationshipGUIDrawer.DrawUnitRelations(unit);
         }
     }
 }

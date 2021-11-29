@@ -39,7 +39,10 @@ public class GameInitializer : MonoBehaviour
 
     private void Start()
     {
-        spawns = TitleManager.Instance.numSpawns;
+        if (TitleManager.Instance != null)
+        {
+            spawns = TitleManager.Instance.numSpawns;
+        }
     }
 
 

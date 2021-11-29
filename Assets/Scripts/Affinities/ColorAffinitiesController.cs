@@ -8,6 +8,8 @@ namespace Affinities
 {
     public class ColorAffinitiesController : MonoBehaviour
     {
+        public static ColorAffinitiesController Instance;
+        
 #pragma warning disable 414
         private bool _initialized = false;
 #pragma warning restore 414
@@ -85,6 +87,8 @@ namespace Affinities
 
         private void Awake()
         {
+            Instance = this;
+            
             Affinities ??= new Dictionary<Color, Affinity>();
             _introverts ??= new Color[Mathf.FloorToInt(colorController.palette.Count / 2)];
             _extroverts ??= new Color[Mathf.FloorToInt(colorController.palette.Count / 2)];

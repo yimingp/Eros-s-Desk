@@ -72,6 +72,8 @@ namespace Unit
             _mySprite.color = newColor;
             _myTrail.startColor = new Color(newColor.r, newColor.g, newColor.b, 120);
             _myTrail.endColor = new Color(newColor.r, newColor.g, newColor.b, 0);
+            inner.myColor = color;
+            outer.myColor = color;
         }
 
         public void NewInteraction(Unit unit)
@@ -98,6 +100,19 @@ namespace Unit
                 _interactions.Remove(interaction);
                 manager.ReturnInteractionToPool(interaction);
             }
+        }
+
+        public float GetInfluenceAffinity()
+        {
+            var innerAff = this.inner.GetAllImpactAffinities();
+
+            innerAff *= (innerAff > 0.5f) ? 1.25f : 0.75f;
+
+            var sum = innerAff + outer.GetAllImpactAffinities();
+
+            sum *= 0.5f;
+            
+            return sum;
         }
 
         public void AddRelation(Unit you, RelationType relation)

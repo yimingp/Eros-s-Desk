@@ -36,7 +36,9 @@ namespace Relation
         public static RelationType CheckRelationDevelopment(Unit.Unit me, float myAfftoYou,
             float interactionTime, Relation existedRelation = null)
         {
-            switch (ImproveRelationOrNot(myAfftoYou, interactionTime, existedRelation?.type ?? RelationType.Neutral,
+            var influence = me.GetInfluenceAffinity();
+            var affinity = influence == 0 ? myAfftoYou : (myAfftoYou + influence) * 0.5f;
+            switch (ImproveRelationOrNot(affinity, interactionTime, existedRelation?.type ?? RelationType.Neutral,
                 me.NumberOfEachRelation[RelationType.Friend],
                 me.NumberOfEachRelation[RelationType.Family], 
                 me.NumberOfEachRelation[RelationType.Enemy]))

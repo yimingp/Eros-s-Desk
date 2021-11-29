@@ -6,11 +6,22 @@ public class PusherGUIController : MonoBehaviour
 {
 
     [Title("Setting")]
-    public bool canUse = true;
+    public bool canUse = false;
     
     [Title("Reference")]
     public MousePusher pusher;
 
+    public void ToggleUsing()
+    {
+        canUse = !canUse;
+
+        if (!canUse)
+        {
+            pusher.gameObject.SetActive(false);
+        }
+    }
+    
+    
     private void Update()
     {
         if(!canUse)

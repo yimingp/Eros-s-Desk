@@ -28,6 +28,11 @@ namespace Unit
             }
         }
 
+        public void UpdateRenderIndex()
+        {
+            line.sortingOrder = length;
+        }
+
         public void AddImpact(int magnitude)
         {
             if (points.Count == capacity)

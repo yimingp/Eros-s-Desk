@@ -9,9 +9,8 @@ namespace Unit
 {
     public class UnitRelationshipGUIDrawer : MonoBehaviour
     {
-        public static UnitRelationshipGUIDrawer Instance;
-
-        [Title("Setting")]
+        [Title("Setting")] 
+        public bool isMainDrawer = false;
         public bool canDraw = true;
         
         [Title("Reference")]
@@ -27,7 +26,6 @@ namespace Unit
 
         private void Awake()
         {
-            Instance = this;
             _isDrawing = false;
             _drawingPool = new List<LineRenderer>();
             _drawingLineTo = new List<Transform>();

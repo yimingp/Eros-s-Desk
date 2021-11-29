@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Affinities;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -22,7 +24,8 @@ namespace Unit
         
         private float _circulationCounter;
 
-        [Title("Data")]
+        [Title("Data")] 
+        [HideInInspector]public Color myColor;
         public List<UnitImpaction> impacts;
         public List<UnitImpaction> fulledImpacts;
         private Vector3[] _points;
@@ -53,6 +56,28 @@ namespace Unit
         public KeyValuePair<Color, int>[] GetAllImpactColors()
         {
             return (impacts.Concat(fulledImpacts)).Distinct().Select(e => new KeyValuePair<Color, int>(e.color, e.length)).ToArray();
+        }
+
+        public float GetAllImpactAffinities()
+        {
+            var allColors = GetAllImpactColors();
+
+            if (allColors.Length <= 0)
+                return 0;
+
+            var sum = 0f;
+            float temp;
+            
+            allColors.ForEach(c =>
+            {
+                temp = ColorAffinitiesController.Instance.GetAffinity(myColor, c.Key).generalAffinity;
+                temp *= (temp > 0.5f) ? (1 + c.Value * 0.05f) : (1 - c.Value * 0.05f);
+                sum += temp;
+            });
+
+            sum /= allColors.Length;
+            
+            return sum;
         }
 
         private void MaintainImpactPosition(UnitImpaction impact)
@@ -118,6 +143,7 @@ namespace Unit
                 }
             }
             MaintainImpactPosition(impact);
+            impact.UpdateRenderIndex();
         }
 
         private void Update()
