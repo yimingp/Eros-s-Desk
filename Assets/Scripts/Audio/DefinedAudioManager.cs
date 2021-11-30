@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 namespace Audio
@@ -29,6 +31,7 @@ namespace Audio
         [Title("Reference")]
         public AudioSource player;
         public Animator musicAnim;
+        public Text musicName;
 
         private bool _fadingOut;
         private DefinedAudioType _current;
@@ -36,6 +39,14 @@ namespace Audio
         private static readonly int FadeOut = Animator.StringToHash("FadeOut");
         private static readonly int PausedFinish = Animator.StringToHash("PausedFinish");
         private static readonly int ClipSet = Animator.StringToHash("ClipSet");
+
+
+        private List<AudioClip> _allClips;
+
+        private void Awake()
+        {
+            _allClips = Resources.LoadAll<AudioClip>("Audio").ToList();
+        }
 
         private void Start()
         {
@@ -50,6 +61,7 @@ namespace Audio
             player.Play();
             musicAnim.SetTrigger(ClipSet);
             _fadingOut = false;
+            musicName.text = clip.name;
         }
 
         public void StartPausing()
@@ -65,8 +77,7 @@ namespace Audio
         
         private AudioClip GetRandomAudioClip(DefinedAudioType type)
         {
-            var allClips = Resources.LoadAll<AudioClip>("Audio");
-            return allClips[Random.Range(0, allClips.Length)];
+            return _allClips[Random.Range(0, _allClips.Count)];
         }
 
         private void Update()

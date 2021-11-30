@@ -396,6 +396,7 @@ MonoBehaviour:
   impactionSpeed: 150
   impactTolerance: 8
   impactionPrefab: {fileID: 8645286492656516946, guid: bf4151ff7834e20418c5c52b8cf4dc43, type: 3}
+  myColor: {r: 0, g: 0, b: 0, a: 0}
   impacts: []
   fulledImpacts: []
 --- !u!1 &5433224507832097624
@@ -529,6 +530,7 @@ MonoBehaviour:
   impactionSpeed: 150
   impactTolerance: 3
   impactionPrefab: {fileID: 8645286492656516946, guid: bf4151ff7834e20418c5c52b8cf4dc43, type: 3}
+  myColor: {r: 0, g: 0, b: 0, a: 0}
   impacts: []
   fulledImpacts: []
 --- !u!1 &6576079025584407057

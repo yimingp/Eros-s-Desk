@@ -29,7 +29,7 @@ namespace Unit
         public float velocityMax;
 
         [Title("Settings/Graphic")] 
-        public float newSpawnFadingSpeed;
+        public float newSpawnFadingTime;
         [Space]public List<float> unitShadeAlphaLevels;
 
 
@@ -137,6 +137,11 @@ namespace Unit
         public void AddImpactSound()
         {
             
+        }
+
+        public void ChangeMaxSpeed(float val)
+        {
+            velocityMax = val;
         }
     }
 }

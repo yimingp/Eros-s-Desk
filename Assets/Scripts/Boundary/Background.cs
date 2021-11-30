@@ -7,14 +7,10 @@ namespace Boundary
 {
     public class Background : MonoBehaviour, IPointerClickHandler
     {
-        public UnitRelationshipGUIDrawer relationshipGUIDrawer;
-        
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (Input.GetMouseButtonUp(0))
-            {
-                relationshipGUIDrawer.UndoDrawing();
-            }
+            if (InputRequestManager.Instance.canRequest && Input.GetMouseButtonUp(0))
+                OnUnitSelectController.Instance.OnUnitDeselect();
         }
     }
 }

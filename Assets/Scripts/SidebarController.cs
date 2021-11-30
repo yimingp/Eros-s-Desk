@@ -13,9 +13,11 @@ public class SidebarController : MonoBehaviour
     public float fadeOutTime;
     public float moveInTime;
     public float moveOutTime;
-    
-    
-    [Title("Reference")]
+
+
+    [Title("Reference")] 
+    public PusherGUIController pusherGUIController;
+    public CameraScript cameraScript;
     public Transform endPosition;
     private Vector2 _startPosition;
 
@@ -34,11 +36,13 @@ public class SidebarController : MonoBehaviour
     {
         transform.DOMoveX(endPosition.position.x, moveInTime);
         _image.DOFade(_endAlphaValue, fadeInTime);
+        InputRequestManager.Instance.SetCanRequest(false);
     }
 
     public void OnPointerExit()
     {
         transform.DOMoveX(_startPosition.x, moveOutTime);
         _image.DOFade(0, fadeOutTime);
+        InputRequestManager.Instance.SetCanRequest(true);
     }
 }

@@ -1232,7 +1232,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 28.100002}
+  m_AnchoredPosition: {x: 0, y: 44.1}
   m_SizeDelta: {x: 2117.446, y: 487.62}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &779692633
@@ -2227,7 +2227,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1034122982}
   - component: {fileID: 1034122981}
-  - component: {fileID: 1034122983}
   m_Layer: 0
   m_Name: GUIManager
   m_TagString: Untagged
@@ -2266,21 +2265,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1034122983
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1034122980}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 810d8d61d464460e94d2fa8289505276, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isMainDrawer: 1
-  canDraw: 0
-  linePrefab: {fileID: 8592895886803905804, guid: 4538c1278d6fea548a49eded93ddc718, type: 3}
 --- !u!1 &1133368566
 GameObject:
   m_ObjectHideFlags: 0

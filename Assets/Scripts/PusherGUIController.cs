@@ -27,14 +27,17 @@ public class PusherGUIController : MonoBehaviour
         if(!canUse)
             return;
 
-        if (Input.GetMouseButtonDown(0))
+        if (InputRequestManager.Instance.canRequest)
         {
-            pusher.gameObject.SetActive(true);
-        }
+            if (Input.GetMouseButtonDown(0))
+            {
+                pusher.gameObject.SetActive(true);
+            }
 
-        if (Input.GetMouseButtonUp(0))
-        {
-            pusher.gameObject.SetActive(false);
+            if (Input.GetMouseButtonUp(0))
+            {
+                pusher.gameObject.SetActive(false);
+            }
         }
     }
 }

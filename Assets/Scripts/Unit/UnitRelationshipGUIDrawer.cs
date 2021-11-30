@@ -10,7 +10,6 @@ namespace Unit
     public class UnitRelationshipGUIDrawer : MonoBehaviour
     {
         [Title("Setting")] 
-        public bool isMainDrawer = false;
         public bool canDraw = true;
         
         [Title("Reference")]
@@ -37,8 +36,22 @@ namespace Unit
         {
             if (_isDrawing)
             {
+                if (_drawingFor is null)
+                {
+                    UndoDrawing();
+                    return;
+                }
+
                 for (var i = 0; i < _drawingLineTo.Count; i++)
                 {
+                    if (_drawingLineTo[i] == null)
+                    {
+                        var line = _drawingPool[i];
+                        _drawingLineTo.RemoveAt(i);
+                        _drawingPool.Remove(line);
+                        ReturnToPool(line);
+                        continue;
+                    }
                     _drawingPool[i].SetPosition(0, _drawingFor.transform.position);
                     _drawingPool[i].SetPosition(1, _drawingLineTo[i].position);
                 }
@@ -54,7 +67,7 @@ namespace Unit
 
         public void DrawUnitRelations(Unit unit)
         {
-            if (!canDraw)
+            if (!canDraw || unit.lifeTime < 3f)
                 return;
             
             _isDrawing = true;
@@ -64,13 +77,16 @@ namespace Unit
 
             _drawingFor.Relations.ForEach(relation =>
             {
-                var line = GetLineFromPool();
-                line.startColor = line.endColor = GUIManager.Instance.drawColors[relation.Value.type];
-                line.positionCount = 2;
-                line.SetPosition(0, _drawingFor.transform.position);
-                line.SetPosition(1, relation.Key.transform.position);
-                _drawingLineTo.Add(relation.Key.transform);
-                _drawingPool.Add(line);
+                if (relation.Key != null)
+                {
+                    var line = GetLineFromPool();
+                    line.startColor = line.endColor = GUIManager.Instance.drawColors[relation.Value.type];
+                    line.positionCount = 2;
+                    line.SetPosition(0, _drawingFor.transform.position);
+                    line.SetPosition(1, relation.Key.transform.position);
+                    _drawingLineTo.Add(relation.Key.transform);
+                    _drawingPool.Add(line);
+                }
             });
         }
 

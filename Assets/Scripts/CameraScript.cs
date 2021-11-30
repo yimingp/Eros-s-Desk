@@ -10,7 +10,8 @@ public class CameraScript : MonoBehaviour
 {
     public static CameraScript Instance;
 
-    [Title("Setting")] 
+    [Title("Setting")]
+    public bool canPanCamera = false;
     public bool isFollowing = true;
     public bool showingFollowingLinks = false;
     public float followTime;
@@ -23,6 +24,7 @@ public class CameraScript : MonoBehaviour
     public CinemachineVirtualCamera cam;
     public UnitsManager manager;
     public UnitRelationshipGUIDrawer linkDrawer;
+    public SelectorController cameraSelector;
     
     private float _timeCounter;
 
@@ -38,12 +40,15 @@ public class CameraScript : MonoBehaviour
 
     private void LateUpdate()
     {
-        var scrollDelta = Input.mouseScrollDelta.y;
-
-        if (scrollDelta != 0)
+        if (InputRequestManager.Instance.canRequest)
         {
-            cam.m_Lens.OrthographicSize += (scrollDelta > 0) ? -1 * zoomSpeed * Time.deltaTime : zoomSpeed * Time.deltaTime;
-            cam.m_Lens.OrthographicSize = Mathf.Clamp(cam.m_Lens.OrthographicSize, zoomMin, zoomMax);
+            var scrollDelta = Input.mouseScrollDelta.y;
+
+            if (scrollDelta != 0)
+            {
+                cam.m_Lens.OrthographicSize += (scrollDelta > 0) ? -1 * zoomSpeed * Time.deltaTime : zoomSpeed * Time.deltaTime;
+                cam.m_Lens.OrthographicSize = Mathf.Clamp(cam.m_Lens.OrthographicSize, zoomMin, zoomMax);
+            }
         }
 
         if (isFollowing)
@@ -60,7 +65,7 @@ public class CameraScript : MonoBehaviour
         }
         else
         {
-            if (Input.GetMouseButton(0))
+            if (InputRequestManager.Instance.canRequest && canPanCamera && Input.GetMouseButton(0))
             {
                 transform.DOMove(Camera.main.ScreenToWorldPoint(Input.mousePosition), manualMoveTime);
             }
@@ -70,11 +75,13 @@ public class CameraScript : MonoBehaviour
     public void ToggleFollowing()
     {
         isFollowing = !isFollowing;
+        canPanCamera = !isFollowing;
 
         if (!isFollowing)
         {
             cam.Follow = null;
             linkDrawer.UndoDrawing();
+            cameraSelector.gameObject.SetActive(false);
         }
     }
 
@@ -87,7 +94,6 @@ public class CameraScript : MonoBehaviour
         if (showingFollowingLinks)
         {
             if(cam.Follow is null) return;
-            linkDrawer.UndoDrawing();
             linkDrawer.DrawUnitRelations(cam.Follow.gameObject.GetComponent<Unit.Unit>());
         }
         else
@@ -106,8 +112,10 @@ public class CameraScript : MonoBehaviour
         
         if (showingFollowingLinks)
         {
-            linkDrawer.UndoDrawing();
             linkDrawer.DrawUnitRelations(cam.Follow.gameObject.GetComponent<Unit.Unit>());
         }
+        
+        cameraSelector.SetFollow(cam.Follow);
+        cameraSelector.gameObject.SetActive(true);
     }
 }

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
+using DG.Tweening;
 using Relation;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
 using Relation = Relation.Relation;
 
@@ -13,8 +12,12 @@ namespace Unit
 {
     public class Unit : MonoBehaviour
     {
-        [Title("Data")]
+        public Action OnNewRelation;
+        
+        
+        [Title("Data")] 
         public uint id;
+        public string unitName;
         public float lifeTime;
         public Color color;
         public List<Unit> interactingList;
@@ -32,7 +35,6 @@ namespace Unit
         public UnitsManager manager;
 
         private bool _isFadingIn;
-        private float _fadingTemp;
         private float _lifeTimeMax;
         private SpriteRenderer _mySprite;
         private TrailRenderer _myTrail;
@@ -62,8 +64,9 @@ namespace Unit
         public void FadeIn()
         {
             _isFadingIn = true;
-            _fadingTemp = 0;
             shade.color = Color.black;
+            
+            shade.DOFade(0, manager.newSpawnFadingTime).OnComplete(() => _isFadingIn = false);
         }
 
         public void SetColor(Color newColor)
@@ -131,6 +134,8 @@ namespace Unit
                 Relations.Add(you, new global::Relation.Relation(this, you, relation));
                 NumberOfEachRelation[relation]++;
             }
+            
+            OnNewRelation?.Invoke();
         }
 
         public void SetOrbitAround(Unit unit, float howLong, RelationType type = RelationType.Friend)
@@ -193,10 +198,7 @@ namespace Unit
         private void UpdateAlphas()
         {
             if (_isFadingIn)
-            {
-                FadingInAlphaChange();
                 return;
-            }
 
             var newAlpha = (_lifeTimeMax - lifeTime) / _lifeTimeMax;
 
@@ -212,14 +214,6 @@ namespace Unit
             newAlpha = manager.unitShadeAlphaLevels[manager.unitShadeAlphaLevels.Count - 1];
             
             shade.color = new Color(Color.black.r, Color.black.g, Color.black.b, newAlpha);
-        }
-
-        private void FadingInAlphaChange()
-        {
-            shade.color = new Color(Color.black.r, Color.black.g, Color.black.b, 1 - (_fadingTemp += Time.deltaTime * manager.newSpawnFadingSpeed));
-
-            if (_fadingTemp <= 0)
-                _isFadingIn = false;
         }
 
         private void OnCollisionEnter2D(Collision2D other)

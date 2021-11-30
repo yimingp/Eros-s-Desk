@@ -11,11 +11,11 @@ namespace Unit
         [Title("Reference")] 
         public Unit unit;
 
-        public UnitRelationshipGUIDrawer relationshipGUIDrawer;
+        private OnUnitSelectController _selectController;
 
-        private void Awake()
+        private void Start()
         {
-            relationshipGUIDrawer = FindObjectsOfType<UnitRelationshipGUIDrawer>().First(e => e.isMainDrawer);
+            _selectController = OnUnitSelectController.Instance;
         }
 
         public void OnPointerClick(PointerEventData eventData)
@@ -28,17 +28,12 @@ namespace Unit
 
         private void OnLeftClick()
         {
-            ShowRelations();
+            if(_selectController != null)
+                _selectController.OnUnitSelect(unit);
         }
 
         private void OnRightClick()
         {
-        }
-
-        private void ShowRelations()
-        {
-            
-            relationshipGUIDrawer.DrawUnitRelations(unit);
         }
     }
 }
