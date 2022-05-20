@@ -16,3 +16,6 @@ Most of his works are an exploration of the world, combining elements into a wor
 - [Assets/Script](https://github.com/yimingp/Eror-s-Desk/tree/main/Assets/Scripts)<br/>
 - [Assets/Graphics](https://github.com/yimingp/Eror-s-Desk/tree/main/Assets/Graphics)<br/>
 - [Assets/Audio](https://github.com/yimingp/Eror-s-Desk/tree/main/Assets/Audio) <br/>
+
+## Executables
+https://yimingp.itch.io/erors-desk?download
